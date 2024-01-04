@@ -32,6 +32,7 @@
     "mongoose": "^8.0.3",
     "nestjs-pino": "^3.5.0",
     "pino-http": "^8.6.1",
+    "pino-pretty": "^10.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
