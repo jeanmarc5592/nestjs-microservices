@@ -26,8 +26,12 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^10.0.2",
     "@nestjs/platform-express": "^9.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "joi": "^17.11.0",
     "mongoose": "^8.0.3",
+    "nestjs-pino": "^3.5.0",
+    "pino-http": "^8.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
