@@ -6,6 +6,7 @@ import { DatabaseModule } from '@app/common/database/database.module';
 import { UserDocument, UserSchema } from './models/user.schema';
 import { LoggerModule } from '@app/common/logger/logger.module';
 import { CryptographyService } from '@app/common/cryptography/src/cryptography.service';
+import { JwtStrategy } from '../strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { CryptographyService } from '@app/common/cryptography/src/cryptography.s
     LoggerModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository, CryptographyService],
+  providers: [UsersService, UsersRepository, CryptographyService, JwtStrategy],
   exports: [UsersService],
 })
 export class UsersModule {}
