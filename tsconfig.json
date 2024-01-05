@@ -23,6 +23,12 @@
       ],
       "@app/common/*": [
         "libs/common/src/*"
+      ],
+      "@app/cryptography": [
+        "libs/common/cryptography/src"
+      ],
+      "@app/cryptography/*": [
+        "libs/common/cryptography/src/*"
       ]
     }
   }

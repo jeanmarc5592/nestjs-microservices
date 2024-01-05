@@ -5,6 +5,7 @@ import { UsersRepository } from './users.repository';
 import { DatabaseModule } from '@app/common/database/database.module';
 import { UserDocument, UserSchema } from './models/user.schema';
 import { LoggerModule } from '@app/common/logger/logger.module';
+import { CryptographyService } from '@app/common/cryptography/src/cryptography.service';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LoggerModule } from '@app/common/logger/logger.module';
     LoggerModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository],
+  providers: [UsersService, UsersRepository, CryptographyService],
+  exports: [UsersService],
 })
 export class UsersModule {}
