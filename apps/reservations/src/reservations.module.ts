@@ -22,6 +22,7 @@ import * as Joi from 'joi';
       isGlobal: true,
       validationSchema: Joi.object({
         DB_URI: Joi.string().required(),
+        PORT: Joi.string().required(),
       }),
     }),
   ],

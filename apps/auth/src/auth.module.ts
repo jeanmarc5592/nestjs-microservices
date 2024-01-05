@@ -17,6 +17,7 @@ import * as Joi from 'joi';
         DB_URI: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
+        PORT: Joi.string().required(),
       }),
     }),
     JwtModule.registerAsync({
