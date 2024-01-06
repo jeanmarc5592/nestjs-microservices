@@ -18,7 +18,8 @@ import { LocalStrategy } from './strategies/local.strategy';
         DB_URI: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
-        PORT: Joi.string().required(),
+        HTTP_PORT: Joi.string().required(),
+        TCP_PORT: Joi.string().required(),
       }),
     }),
     JwtModule.registerAsync({
