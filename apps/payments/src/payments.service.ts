@@ -27,7 +27,10 @@ export class PaymentsService {
       source: 'tok_visa',
     });
 
-    this.notificationsService.emit('notify_email', { email });
+    this.notificationsService.emit('notify_email', {
+      email,
+      text: `Your payment of $${amount} has been completed successfully!`,
+    });
 
     return charge;
   }
