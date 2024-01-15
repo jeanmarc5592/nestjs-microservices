@@ -4,11 +4,13 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+COPY tsconfig.json tsconfig.json
 
 RUN npm install -g pnpm
 RUN pnpm install
 
-COPY ./ ./
+COPY apps/reservations apps/reservations
+COPY libs libs
 
 RUN npm run build
 

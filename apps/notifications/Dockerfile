@@ -4,11 +4,15 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+COPY tsconfig.json tsconfig.json
 
 RUN npm install -g pnpm
 RUN pnpm install
 
-COPY ./ ./
+COPY apps/notifications apps/notifications
+COPY libs libs
+
+RUN cd apps/notifications && pnpm install
 
 RUN npm run build
 
