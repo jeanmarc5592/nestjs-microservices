@@ -5,16 +5,16 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json tsconfig.json
+COPY nest-cli.json nest-cli.json
 
 RUN npm install -g pnpm
-RUN pnpm install
 
 COPY apps/payments apps/payments
 COPY libs libs
 
-RUN cd apps/payments && pnpm install
+RUN pnpm install -r
 
-RUN npm run build
+RUN npm run build payments
 
 
 
