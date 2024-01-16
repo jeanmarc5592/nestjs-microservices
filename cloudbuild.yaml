@@ -6,7 +6,7 @@ steps:
       '-t',
       'europe-west3-docker.pkg.dev/sleepr-410813/authentication/production',
       '-f',
-      'apps/authentication/Dockerfile',
+      'apps/auth/Dockerfile',
       '.'
     ]
   - name: 'gcr.io/cloud-builders/docker'
