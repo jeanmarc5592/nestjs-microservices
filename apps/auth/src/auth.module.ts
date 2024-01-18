@@ -7,6 +7,7 @@ import { LoggerModule } from '@app/common/logger/logger.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { LocalStrategy } from './strategies/local.strategy';
+import { HealthModule } from '@app/common/health/health.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LocalStrategy } from './strategies/local.strategy';
       },
       inject: [ConfigService],
     }),
+    HealthModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy],
