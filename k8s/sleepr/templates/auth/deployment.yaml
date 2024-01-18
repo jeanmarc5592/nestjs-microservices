@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: authentication
+  name: authentication
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication
+  template:
+    metadata:
+      labels:
+        app: authentication
+    spec:
+      containers:
+      - image: europe-west3-docker.pkg.dev/sleepr-410813/authentication/production
+        name: authentication
+        env: 
+          - name: DB_URI
+            valueFrom:
+              secretKeyRef:
+                name: mongodb
+                key: connectionString
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt
+                key: jwtSecret
+          - name: JWT_EXPIRATION
+            value: 3600s
+          - name: HTTP_PORT
+            value: '3001'
+          - name: TCP_PORT
+            value: '3002'
+        ports:
+          - containerPort: 3001
+          - containerPort: 3002
