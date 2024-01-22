@@ -16,7 +16,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         (request: any) => {
           // When REST Call --> jwt is in "request?.cookies?.Authentication"
           // When RPC Call (from another microservice) --> jwt is in "request?.Authentication"
-          return request?.cookies?.Authentication || request?.Authentication;
+          return (
+            request?.cookies?.Authentication ||
+            request?.Authentication ||
+            request?.headers.Authentication
+          );
         },
       ]),
       secretOrKey: configService.get<string>('JWT_SECRET'),
