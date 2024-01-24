@@ -1,4 +1,4 @@
-import { AbstractDocument } from '@app/common/database/abstract.schema';
+import { AbstractDocument } from '@app/common/database/abstract.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ versionKey: false })
