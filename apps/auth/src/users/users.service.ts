@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -9,6 +8,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import { CryptographyService } from '@app/common/cryptography/src/cryptography.service';
 import { GetUserDto } from './dto/get-user.dto';
+import { User } from '@app/common/entities/user.entity';
+import { UserRole } from '@app/common/entities/user-role.entity';
 
 @Injectable()
 export class UsersService {
@@ -20,10 +21,15 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     await this.validateCreateUserDto(createUserDto);
 
-    return this.usersRepository.create({
+    const user = new User({
       ...createUserDto,
       password: await this.cryptographyService.hash(createUserDto.password),
+      roles: createUserDto.roles?.map(
+        (userRoleDto) => new UserRole(userRoleDto),
+      ),
     });
+
+    return this.usersRepository.create(user);
   }
 
   async verifyUser(email: string, password: string) {
@@ -41,7 +47,7 @@ export class UsersService {
   }
 
   async getUser(getUserDto: GetUserDto) {
-    return this.usersRepository.findOne({ _id: getUserDto._id });
+    return this.usersRepository.findOne({ id: getUserDto.id }, { roles: true });
   }
 
   private async validateCreateUserDto(createUserDto: CreateUserDto) {
