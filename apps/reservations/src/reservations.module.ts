@@ -13,6 +13,9 @@ import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE, PAYMENTS_SERVICE } from '@app/common/constants/services';
 import { HealthModule } from '@app/common/health/health.module';
+import { AUTH_PACKAGE_NAME } from '@app/common/types/auth';
+import { join } from 'path';
+import { PAYMENTS_PACKAGE_NAME } from '@app/common/types/payments';
 
 @Module({
   imports: [
@@ -26,20 +29,17 @@ import { HealthModule } from '@app/common/health/health.module';
       validationSchema: Joi.object({
         DB_URI: Joi.string().required(),
         PORT: Joi.string().required(),
-        AUTH_HOST: Joi.string().required(),
-        AUTH_PORT: Joi.string().required(),
-        PAYMENTS_HOST: Joi.string().required(),
-        PAYMENTS_PORT: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.GRPC,
           options: {
-            host: configService.get('AUTH_HOST'),
-            port: configService.get('AUTH_PORT'),
+            package: AUTH_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/auth.proto'),
+            url: configService.getOrThrow('AUTH_GRPC_URL'),
           },
         }),
         inject: [ConfigService],
@@ -47,10 +47,11 @@ import { HealthModule } from '@app/common/health/health.module';
       {
         name: PAYMENTS_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.GRPC,
           options: {
-            host: configService.get('PAYMENTS_HOST'),
-            port: configService.get('PAYMENTS_PORT'),
+            package: PAYMENTS_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/payments.proto'),
+            url: configService.getOrThrow('PAYMENTS_GRPC_URL'),
           },
         }),
         inject: [ConfigService],
