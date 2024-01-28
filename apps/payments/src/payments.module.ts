@@ -5,9 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { LoggerModule } from '@app/common/logger/logger.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { NOTIFICATIONS_SERVICE } from '@app/common/constants/services';
 import { join } from 'path';
-import { NOTIFICATIONS_PACKAGE_NAME } from '@app/common/types/notifications';
+import {
+  NOTIFICATIONS_PACKAGE_NAME,
+  NOTIFICATIONS_SERVICE_NAME,
+} from '@app/common/types/notifications';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { NOTIFICATIONS_PACKAGE_NAME } from '@app/common/types/notifications';
     LoggerModule,
     ClientsModule.registerAsync([
       {
-        name: NOTIFICATIONS_SERVICE,
+        name: NOTIFICATIONS_SERVICE_NAME,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {

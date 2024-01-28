@@ -11,11 +11,13 @@ import { LoggerModule } from '@app/common/logger/logger.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVICE, PAYMENTS_SERVICE } from '@app/common/constants/services';
 import { HealthModule } from '@app/common/health/health.module';
-import { AUTH_PACKAGE_NAME } from '@app/common/types/auth';
+import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME } from '@app/common/types/auth';
 import { join } from 'path';
-import { PAYMENTS_PACKAGE_NAME } from '@app/common/types/payments';
+import {
+  PAYMENTS_PACKAGE_NAME,
+  PAYMENTS_SERVICE_NAME,
+} from '@app/common/types/payments';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { PAYMENTS_PACKAGE_NAME } from '@app/common/types/payments';
     }),
     ClientsModule.registerAsync([
       {
-        name: AUTH_SERVICE,
+        name: AUTH_SERVICE_NAME,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
@@ -45,7 +47,7 @@ import { PAYMENTS_PACKAGE_NAME } from '@app/common/types/payments';
         inject: [ConfigService],
       },
       {
-        name: PAYMENTS_SERVICE,
+        name: PAYMENTS_SERVICE_NAME,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
