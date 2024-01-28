@@ -10,7 +10,6 @@ import { LoggerModule } from '@app/common/logger/logger.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        PORT: Joi.string().required(),
         SMTP_USER: Joi.string().required(),
         GOOGLE_CLIENT_ID: Joi.string().required(),
         GOOGLE_CLIENT_SECRET: Joi.string().required(),

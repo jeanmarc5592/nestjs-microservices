@@ -14,10 +14,7 @@ import { NOTIFICATIONS_PACKAGE_NAME } from '@app/common/types/notifications';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        PORT: Joi.string().required(),
         STRIPE_API_KEY: Joi.string().required(),
-        NOTIFICATIONS_HOST: Joi.string().required(),
-        NOTIFICATIONS_PORT: Joi.number().required(),
       }),
     }),
     LoggerModule,
