@@ -6,6 +6,8 @@ import * as Joi from 'joi';
 import { LoggerModule } from '@app/common/logger/logger.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { NOTIFICATIONS_SERVICE } from '@app/common/constants/services';
+import { join } from 'path';
+import { NOTIFICATIONS_PACKAGE_NAME } from '@app/common/types/notifications';
 
 @Module({
   imports: [
@@ -23,10 +25,11 @@ import { NOTIFICATIONS_SERVICE } from '@app/common/constants/services';
       {
         name: NOTIFICATIONS_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.GRPC,
           options: {
-            host: configService.get<string>('NOTIFICATIONS_HOST'),
-            port: configService.get<number>('NOTIFICATIONS_PORT'),
+            package: NOTIFICATIONS_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/notifications.proto'),
+            url: configService.getOrThrow('NOTIFICATIONS_GRPC_URL'),
           },
         }),
         inject: [ConfigService],

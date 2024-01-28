@@ -1,12 +1,17 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
-import { NOTIFICATIONS_SERVICE } from '@app/common/constants/services';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientGrpc } from '@nestjs/microservices';
 import { PaymentsCreateChargeDto } from './dto/payments-create-charge.dto';
+import {
+  NOTIFICATIONS_SERVICE_NAME,
+  NotificationsServiceClient,
+} from '@app/common/types/notifications';
 
 @Injectable()
-export class PaymentsService {
+export class PaymentsService implements OnModuleInit {
+  private notificationsService: NotificationsServiceClient;
+
   private readonly stripe = new Stripe(
     this.configService.get<string>('STRIPE_API_KEY'),
     {
@@ -16,9 +21,16 @@ export class PaymentsService {
 
   constructor(
     private readonly configService: ConfigService,
-    @Inject(NOTIFICATIONS_SERVICE)
-    private readonly notificationsService: ClientProxy,
+    @Inject(NOTIFICATIONS_SERVICE_NAME)
+    private readonly client: ClientGrpc,
   ) {}
+
+  onModuleInit() {
+    this.notificationsService =
+      this.client.getService<NotificationsServiceClient>(
+        NOTIFICATIONS_SERVICE_NAME,
+      );
+  }
 
   async createCharge({ email, amount }: PaymentsCreateChargeDto) {
     const charge = await this.stripe.charges.create({
@@ -27,10 +39,13 @@ export class PaymentsService {
       source: 'tok_visa',
     });
 
-    this.notificationsService.emit('notify_email', {
-      email,
-      text: `Your payment of $${amount} has been completed successfully!`,
-    });
+    this.notificationsService
+      .notifyEmail({
+        email,
+        text: `Your payment of $${amount} has been completed successfully!`,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .subscribe(() => {});
 
     return charge;
   }
