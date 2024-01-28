@@ -13,7 +13,7 @@ message CreateChargeResponse {
 message CreateChargeMessage {
   string email = 1;
   int32 amount = 2;
-  CardMesage card = 3;
+  CardMessage card = 3;
 }
 
 message CardMessage {
