@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 export const protobufPackage = "auth";
 
 export interface Authenticaion {
-  Authentication: string;
+  Authenticaion: string;
 }
 
 export interface UserMessage {
@@ -18,16 +18,16 @@ export interface UserMessage {
 export const AUTH_PACKAGE_NAME = "auth";
 
 export interface AuthServiceClient {
-  login(request: Authenticaion): Observable<UserMessage>;
+  authenticate(request: Authenticaion): Observable<UserMessage>;
 }
 
 export interface AuthServiceController {
-  login(request: Authenticaion): Promise<UserMessage> | Observable<UserMessage> | UserMessage;
+  authenticate(request: Authenticaion): Promise<UserMessage> | Observable<UserMessage> | UserMessage;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["login"];
+    const grpcMethods: string[] = ["authenticate"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
