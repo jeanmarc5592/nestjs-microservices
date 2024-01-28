@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 export const protobufPackage = "auth";
 
 export interface Authenticaion {
-  Authenticaion: string;
+  Authentication: string;
 }
 
 export interface UserMessage {
