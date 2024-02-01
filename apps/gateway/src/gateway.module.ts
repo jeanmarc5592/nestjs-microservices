@@ -29,6 +29,10 @@ import { authContext } from './auth.context';
                 name: 'auth',
                 url: configService.getOrThrow('AUTH_GRAPHQL_URL'),
               },
+              {
+                name: 'payments',
+                url: configService.getOrThrow('PAYMENTS_GRAPHQL_URL'),
+              },
             ],
           }),
           // Writes the user object onto the request object that can be used by sub microservices
