@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -52,5 +51,9 @@ export class UsersService {
     }
 
     throw new UnprocessableEntityException('Email already exists');
+  }
+
+  async findAll() {
+    return this.usersRepository.find({});
   }
 }
